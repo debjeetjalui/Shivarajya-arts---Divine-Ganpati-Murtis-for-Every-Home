@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Shri Ganpati Murtis</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo">🕉️</div>
+                <h1>Shri Ganpati Murtis</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="products.html" class="nav-link active">Products</a>
+                <a href="claim.html" class="nav-link">Claims</a>
+                <a href="index.html#about" class="nav-link">About Us</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-btn">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="login.html" class="login-btn" id="authBtn">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding: 40px 0;">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: 1fr 3fr; gap: 2rem;">
+                <!-- Filters Sidebar -->
+                <div class="filters">
+                    <h3 style="margin-bottom: 1.5rem; color: #2c3e50;">🔍 Filters</h3>
+                    
+                    <div class="filter-group">
+                        <h4>Size</h4>
+                        <div class="filter-options">
+                            <div class="filter-option" data-filter="size" data-value="">All</div>
+                            <div class="filter-option" data-filter="size" data-value="Small">Small</div>
+                            <div class="filter-option" data-filter="size" data-value="Medium">Medium</div>
+                            <div class="filter-option" data-filter="size" data-value="Large">Large</div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Material</h4>
+                        <div class="filter-options">
+                            <div class="filter-option" data-filter="material" data-value="">All</div>
+                            <div class="filter-option" data-filter="material" data-value="Clay">Clay</div>
+                            <div class="filter-option" data-filter="material" data-value="Plaster">Plaster</div>
+                            <div class="filter-option" data-filter="material" data-value="Marble">Marble</div>
+                            <div class="filter-option" data-filter="material" data-value="Metal">Metal</div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h4>Type</h4>
+                        <div class="filter-options">
+                            <div class="filter-option" data-filter="type" data-value="">All</div>
+                            <div class="filter-option" data-filter="type" data-value="Traditional">Traditional</div>
+                            <div class="filter-option" data-filter="type" data-value="Decorative">Decorative</div>
+                            <div class="filter-option" data-filter="type" data-value="Eco-Friendly">Eco-Friendly</div>
+                        </div>
+                    </div>
+
+                    <button id="clearFilters" class="btn btn-secondary w-100">Clear Filters</button>
+                </div>
+
+                <!-- Products Section -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h1 style="color: #2c3e50;">Our Products</h1>
+                        <div id="productCount" style="color: #666;">Loading products...</div>
+                    </div>
+
+                    <div id="productsGrid" class="products-grid">
+                        <!-- Products will be loaded here -->
+                    </div>
+
+                    <!-- No Products Found -->
+                    <div id="noProductsFound" style="display: none; text-align: center; padding: 3rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+                        <h3>No products found</h3>
+                        <p style="color: #666;">Try adjusting your filters to see more products.</p>
+                    </div>
+
+                    <div id="loadingSpinner" style="text-align: center; padding: 2rem;">
+                        <div class="loading"></div>
+                        <p>Loading products...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Flash Message Container -->
+    <div id="flashMessage" class="flash-message"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+</body>
+</html>

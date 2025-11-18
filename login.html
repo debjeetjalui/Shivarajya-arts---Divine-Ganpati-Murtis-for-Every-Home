@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Shivrajya arts</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>Shivrajya arts</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="claim.html" class="nav-link">Claims</a>
+                <a href="index.html#about" class="nav-link">About Us</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-btn">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="login.html" class="login-btn active">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding: 40px 0; min-height: 80vh;">
+        <div class="container">
+            <div class="form-container">
+                <div class="text-center mb-3">
+                    <div class="logo" style="width: 60px; height: 60px; margin: 0 auto 20px; font-size: 30px;">🕉️</div>
+                    <h2 id="formTitle">Welcome Back</h2>
+                    <p id="formSubtitle">Sign in to your account</p>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" style="display: block;">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Sign In</button>
+                </form>
+
+                <!-- Registration Form -->
+                <form id="registerForm" style="display: none;">
+                    <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" class="form-control" required>
+                        </div>
+                        <div>
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email Address</label>
+                        <input type="email" id="registerEmail" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" placeholder="+91 98765 43210" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Create Account</button>
+                </form>
+
+                <!-- OTP Verification Form -->
+                <form id="otpForm" style="display: none;">
+                    <div class="form-group">
+                        <label for="otpCode">Enter OTP</label>
+                        <input type="text" id="otpCode" class="form-control" placeholder="000000" maxlength="6" style="text-align: center; font-size: 1.5rem; letter-spacing: 0.5rem;" required>
+                        <small class="text-center" style="display: block; margin-top: 10px; color: #666;">
+                            OTP sent to <span id="otpEmail"></span>
+                        </small>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Verify OTP</button>
+                    <button type="button" id="resendOtp" class="btn btn-secondary w-100 mt-2">Resend OTP</button>
+                </form>
+
+                <!-- Toggle Forms -->
+                <div class="text-center mt-3">
+                    <button type="button" id="toggleForm" class="btn" style="background: none; border: none; color: #ff6b35; text-decoration: underline; cursor: pointer;">
+                        Don't have an account? Sign up
+                    </button>
+                </div>
+
+                <div class="text-center mt-2">
+                    <a href="index.html" style="color: #666; text-decoration: none;">← Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Flash Message Container -->
+    <div id="flashMessage" class="flash-message"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

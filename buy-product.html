@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Payment - Shri Ganpati Murtis</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/buy-product.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo">🕉️</div>
+                <h1>Shri Ganpati Murtis</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="claim.html" class="nav-link">Claims</a>
+                <a href="index.html#about" class="nav-link">About Us</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-btn">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="login.html" class="login-btn" id="authBtn">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="checkout-main">
+        <div class="container">
+            <!-- Progress Indicator -->
+            <div class="progress-indicator">
+                <div class="progress-step active">
+                    <div class="step-icon">1</div>
+                    <span>Secure Payment</span>
+                </div>
+                <div class="progress-step">
+                    <div class="step-icon">2</div>
+                    <span>Order Confirmation</span>
+                </div>
+                <div class="progress-step">
+                    <div class="step-icon">3</div>
+                    <span>Delivery</span>
+                </div>
+            </div>
+
+            <!-- Checkout Content -->
+            <div class="checkout-container">
+                <!-- Order Summary Section -->
+                <div class="order-summary-section">
+                    <h2>Order Summary</h2>
+                    
+                    <div class="order-item">
+                        <img id="productImage" src="" alt="Product" class="order-product-image">
+                        <div class="order-product-details">
+                            <h3 id="productName">Loading...</h3>
+                            <p class="product-type" id="productType">Regular Version</p>
+                            <p class="product-quantity">Quantity: <span id="productQuantity">1</span></p>
+                            <p class="product-price">₹<span id="productPrice">0.00</span></p>
+                        </div>
+                    </div>
+
+                    <div class="order-totals">
+                        <div class="total-row">
+                            <span>Subtotal:</span>
+                            <span>₹<span id="subtotalAmount">0.00</span></span>
+                        </div>
+                        <div class="total-row">
+                            <span>Shipping:</span>
+                            <span>₹50.00</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Tax (GST 18%):</span>
+                            <span>₹<span id="taxAmount">0.00</span></span>
+                        </div>
+                        <div class="total-row final-total">
+                            <span>Total Amount:</span>
+                            <span>₹<span id="totalAmount">50.00</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Details Section -->
+                <div class="payment-details-section">
+                    <h2>Payment Details</h2>
+                    
+                    <!-- Payment Method Selection -->
+                    <div class="payment-method-selection">
+                        <h3>Select Payment Method</h3>
+                        
+                        <div class="payment-options">
+                            <!-- Credit/Debit Card -->
+                            <div class="payment-option" data-method="card">
+                                <div class="payment-option-header">
+                                    <input type="radio" name="paymentMethod" value="card" id="cardPayment">
+                                    <label for="cardPayment">
+                                        <div class="payment-icon">💳</div>
+                                        <div>
+                                            <h5>Credit/Debit Card</h5>
+                                            <p>Pay with Visa, Mastercard, Rupay</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- UPI -->
+                            <div class="payment-option" data-method="upi">
+                                <div class="payment-option-header">
+                                    <input type="radio" name="paymentMethod" value="upi" id="upiPayment" checked>
+                                    <label for="upiPayment">
+                                        <div class="payment-icon">📱</div>
+                                        <div>
+                                            <h5>UPI Payment</h5>
+                                            <p>GooglePay, PhonePe, Paytm, BHIM</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Net Banking -->
+                            <div class="payment-option" data-method="netbanking">
+                                <div class="payment-option-header">
+                                    <input type="radio" name="paymentMethod" value="netbanking" id="netbankingPayment">
+                                    <label for="netbankingPayment">
+                                        <div class="payment-icon">🏦</div>
+                                        <div>
+                                            <h5>Net Banking</h5>
+                                            <p>All major banks supported</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Cash on Delivery -->
+                            <div class="payment-option" data-method="cod">
+                                <div class="payment-option-header">
+                                    <input type="radio" name="paymentMethod" value="cod" id="codPayment">
+                                    <label for="codPayment">
+                                        <div class="payment-icon">💵</div>
+                                        <div>
+                                            <h5>Cash on Delivery</h5>
+                                            <p>Pay when you receive</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card Details Form -->
+                    <div id="cardDetailsForm" class="payment-form" style="display: none;">
+                        <h4>Card Details</h4>
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" class="form-control">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiryDate">Expiry Date</label>
+                                <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" placeholder="123" maxlength="3" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardName">Name on Card</label>
+                            <input type="text" id="cardName" placeholder="John Doe" class="form-control">
+                        </div>
+                    </div>
+
+                    <!-- UPI Details Form -->
+                    <div id="upiDetailsForm" class="payment-form">
+                        <h4>Pay with UPI</h4>
+                        <div class="form-group">
+                            <label for="upiId">Your UPI ID</label>
+                            <input type="text" id="upiId" placeholder="yourname@upi" class="form-control">
+                            <p class="form-help-text">Enter your UPI ID (e.g., mobile@upi, name@bank)</p>
+                        </div>
+                        <div class="form-group">
+                            <button id="verifyUpiBtn" class="btn btn-secondary w-100" style="margin-bottom: 1rem;">Verify UPI ID</button>
+                        </div>
+                        <div id="upiVerificationStatus" style="display: none; padding: 1rem; border-radius: 10px; margin-bottom: 1rem;"></div>
+                        <div class="upi-verification-success" id="upiVerifiedSection" style="display: none; text-align: center; padding: 1rem; background: #d4edda; border-radius: 10px; margin-bottom: 1rem; border: 1px solid #c3e6cb;">
+                            <span style="color: #155724; font-weight: bold;">✓ UPI ID Verified Successfully</span>
+                        </div>
+                        <div class="qr-code-container">
+                            <h4>Or Scan QR Code to Pay</h4>
+                            <div class="qr-code-display">
+                                <canvas id="upiQRCode"></canvas>
+                            </div>
+                            <p class="qr-amount">Amount: ₹<span id="qrAmount">0.00</span></p>
+                            <p class="qr-instruction">Scan this QR code with any UPI app</p>
+                            <div class="upi-apps">
+                                <span>Pay with: GooglePay • PhonePe • Paytm • BHIM</span>
+                            </div>
+                        </div>
+                        <div class="upi-payment-instructions">
+                            <h5>Payment Instructions:</h5>
+                            <ol>
+                                <li>Verify your UPI ID above or scan the QR code</li>
+                                <li>Complete the payment in your UPI app</li>
+                                <li>Click "Secure Checkout" after payment is done</li>
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Net Banking Details Form -->
+                    <div id="netbankingDetailsForm" class="payment-form" style="display: none;">
+                        <h4>Select Bank</h4>
+                        <div class="form-group">
+                            <label for="bankSelect">Select Bank</label>
+                            <select id="bankSelect" class="form-control">
+                                <option value="">Choose your bank</option>
+                                <option value="sbi">State Bank of India</option>
+                                <option value="hdfc">HDFC Bank</option>
+                                <option value="icici">ICICI Bank</option>
+                                <option value="axis">Axis Bank</option>
+                                <option value="pnb">Punjab National Bank</option>
+                                <option value="boi">Bank of India</option>
+                                <option value="canara">Canara Bank</option>
+                                <option value="union">Union Bank of India</option>
+                                <option value="bob">Bank of Baroda</option>
+                                <option value="idbi">IDBI Bank</option>
+                                <option value="yes">Yes Bank</option>
+                                <option value="kotak">Kotak Mahindra Bank</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <div class="shipping-address-section">
+                        <h3>Shipping Address</h3>
+                        <div class="form-group">
+                            <label for="fullAddress">Full Address *</label>
+                            <textarea id="fullAddress" placeholder="Enter your complete address" rows="3" class="form-control" required></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phoneNumber">Phone Number *</label>
+                                <input type="tel" id="phoneNumber" placeholder="+91 98765 43210" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="pincode">Pincode *</label>
+                                <input type="text" id="pincode" placeholder="400001" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pay Now Button -->
+                    <button id="payNowBtn" class="pay-now-btn">
+                        🔒 Secure Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading State -->
+    <div id="loadingState" style="display: none; text-align: center; padding: 3rem;">
+        <div class="loading"></div>
+        <p>Processing your payment...</p>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal" style="display: none;">
+        <div class="modal-content success-modal">
+            <div class="success-icon">✅</div>
+            <h3>Payment Successful!</h3>
+            <p>Your order has been placed successfully. You will receive a confirmation email shortly.</p>
+            <p>Order ID: <strong id="orderId">ORD123456</strong></p>
+            <button onclick="closeSuccessModal()" class="btn btn-primary">Continue Shopping</button>
+        </div>
+    </div>
+
+    <!-- Flash Message Container -->
+    <div id="flashMessage" class="flash-message"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/buy-product.js"></script>
+</body>
+</html>

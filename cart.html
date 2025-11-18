@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Shivarajya arts</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>Shivrajya arts</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="claim.html" class="nav-link">Claims</a>
+                <a href="index.html#about" class="nav-link">About Us</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-btn active">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="login.html" class="login-btn" id="authBtn">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding: 40px 0; min-height: 80vh;">
+        <div class="container">
+            <h1 style="text-align: center; margin-bottom: 2rem; color: #2c3e50;">🛒 Shopping Cart</h1>
+
+            <!-- Login Required Message -->
+            <div id="loginRequired" class="text-center" style="display: none;">
+                <div style="background: white; padding: 3rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); max-width: 500px; margin: 0 auto;">
+                    <div style="font-size: 4rem; margin-bottom: 1.5rem;">🔒</div>
+                    <h2 style="color: #2c3e50; margin-bottom: 1rem;">Login Required</h2>
+                    <p style="color: #666; margin-bottom: 2rem;">Please login to view your shopping cart.</p>
+                    <a href="login.html" class="btn btn-primary">Login Now</a>
+                </div>
+            </div>
+
+            <!-- Cart Content -->
+            <div id="cartContent" style="display: none;">
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+                    <!-- Cart Items -->
+                    <div>
+                        <div style="background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); padding: 2rem;">
+                            <h3 style="margin-bottom: 1.5rem; color: #2c3e50;">Cart Items</h3>
+                            <div id="cartItems">
+                                <div style="text-align: center; padding: 2rem; color: #666;">
+                                    <div class="loading"></div>
+                                    <p>Loading cart items...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div>
+                        <div style="background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); padding: 2rem; position: sticky; top: 100px;">
+                            <h3 style="margin-bottom: 1.5rem; color: #2c3e50;">Order Summary</h3>
+                            
+                            <div id="orderSummary">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                                    <span>Subtotal:</span>
+                                    <span id="subtotal">₹0.00</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                                    <span>Shipping:</span>
+                                    <span id="shipping">₹50.00</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-weight: 700; font-size: 1.2rem; color: #ff6b35;">
+                                    <span>Total:</span>
+                                    <span id="total">₹50.00</span>
+                                </div>
+                            </div>
+
+                            <button id="checkoutBtn" class="btn btn-primary w-100" style="margin-bottom: 1rem;" disabled>
+                                Proceed to Checkout
+                            </button>
+                            
+                            <button id="clearCartBtn" class="btn btn-secondary w-100">
+                                Clear Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty Cart -->
+            <div id="emptyCart" style="display: none;">
+                <div style="text-align: center; background: white; padding: 4rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); max-width: 600px; margin: 0 auto;">
+                    <div style="font-size: 5rem; margin-bottom: 1.5rem;">🛒</div>
+                    <h2 style="color: #2c3e50; margin-bottom: 1rem;">Your Cart is Empty</h2>
+                    <p style="color: #666; margin-bottom: 2rem;">Add some beautiful Ganpati murtis to your cart to get started.</p>
+                    <a href="products.html" class="btn btn-primary">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3>Checkout</h3>
+                <button class="modal-close" onclick="closeCheckoutModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="checkoutForm">
+                    <div class="form-group">
+                        <label for="shippingAddress">Shipping Address *</label>
+                        <textarea id="shippingAddress" class="form-control" rows="3" placeholder="Enter your complete address..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone Number *</label>
+                        <input type="tel" id="phoneNumber" class="form-control" placeholder="+91 98765 43210" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentMethod">Payment Method *</label>
+                        <select id="paymentMethod" class="form-control" required>
+                            <option value="">Select payment method...</option>
+                            <option value="cod">Cash on Delivery</option>
+                            <option value="online">Online Payment</option>
+                        </select>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Subtotal:</span>
+                            <span id="checkoutSubtotal">₹0.00</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Shipping:</span>
+                            <span>₹50.00</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-weight: 700; color: #ff6b35;">
+                            <span>Total:</span>
+                            <span id="checkoutTotal">₹50.00</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Place Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flash Message Container -->
+    <div id="flashMessage" class="flash-message"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Overview - Shri Ganpati Murtis</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <div class="logo">🕉️</div>
+                <h1>Shri Ganpati Murtis</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="claim.html" class="nav-link">Claims</a>
+                <a href="index.html#about" class="nav-link">About Us</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-btn">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="login.html" class="login-btn" id="authBtn">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding: 20px 0; min-height: 100vh; background: #f8f9fa;">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div style="margin-bottom: 2rem;">
+                <a href="index.html" style="color: #666; text-decoration: none;">Home</a>
+                <span style="color: #666; margin: 0 10px;">></span>
+                <a href="products.html" style="color: #666; text-decoration: none;">Products</a>
+                <span style="color: #666; margin: 0 10px;">></span>
+                <span id="productBreadcrumb" style="color: #ff6b35;">Loading...</span>
+            </div>
+
+            <!-- Product Details -->
+            <div id="productDetails" style="display: none;">
+                <div class="product-overview-layout">
+                    <!-- Left Side - Product Images -->
+                    <div class="product-images-section">
+                        <div class="product-main-image">
+                            <img id="mainProductImage" src="" alt="Product Image" />
+                            <div class="badge new-badge">New</div>
+                            <div class="image-navigation">
+                                <button class="nav-btn prev-btn" onclick="previousImage()">❮</button>
+                                <button class="nav-btn next-btn" onclick="nextImage()">❯</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Thumbnails -->
+                        <div class="thumbnail-container">
+                            <!-- Thumbnails will be added here -->
+                        </div>
+                        
+                        <!-- Certificate Display -->
+                        <div class="certificate-section">
+                            <img src="https://via.placeholder.com/250x180/f8f9fa/666?text=OFFICIAL+CERTIFICATE" alt="Official Certificate" class="certificate-image" />
+                        </div>
+                    </div>
+
+                    <!-- Right Side - Product Info -->
+                    <div class="product-info-section">
+                        <h1 id="productTitle" class="product-title-main">Loading...</h1>
+                        
+                        <!-- Categories -->
+                        <div id="productCategories" style="display: flex; gap: 10px; margin-bottom: 1.5rem;">
+                            <!-- Categories will be added here -->
+                        </div>
+                        
+                        <!-- Description -->
+                        <p id="productDescription" style="color: #666; line-height: 1.8; margin-bottom: 2rem;"></p>
+                        
+                        <!-- Stock Status -->
+                        <div id="stockStatus" style="margin-bottom: 2rem;">
+                            <!-- Stock status will be added here -->
+                        </div>
+                        
+                        <!-- Pricing Options -->
+                        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem;">
+                            <h3 style="color: #2c3e50; margin-bottom: 1rem;">Choose Your Option</h3>
+                            
+                            <div class="pricing-option regular-option" onclick="selectPricingOption('regular')">
+                                <div>
+                                    <h4>Regular Version</h4>
+                                    <p>Traditional finish with standard features</p>
+                                    <span id="regularPrice" class="option-price"></span>
+                                </div>
+                                <div class="option-selector">
+                                    <input type="radio" name="pricing" value="regular" checked>
+                                </div>
+                            </div>
+                            
+                            <div class="pricing-option decorative-option" onclick="selectPricingOption('decorative')">
+                                <div>
+                                    <h4>Decorative Version ⭐</h4>
+                                    <p>Premium finish with enhanced decorative elements</p>
+                                    <span id="decorativePrice" class="option-price"></span>
+                                </div>
+                                <div class="option-selector">
+                                    <input type="radio" name="pricing" value="decorative">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="product-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Vendor:</span>
+                                <span id="vendorName" class="meta-value">Shri Ganpati</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Sku:</span>
+                                <span id="productSku" class="meta-value">Loading...</span>
+                            </div>
+                        </div>
+
+                        <!-- Quantity Selector -->
+                        <div class="quantity-section">
+                            <label style="font-weight: 600; color: #2c3e50; margin-right: 1rem;">Quantity:</label>
+                            <button class="quantity-btn" onclick="updateQuantity(-1)">-</button>
+                            <span id="quantityDisplay" class="quantity-value">1</span>
+                            <button class="quantity-btn" onclick="updateQuantity(1)">+</button>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="action-buttons-section">
+                            <button id="addToCartBtn" class="btn-add-cart" onclick="addProductToCart()">🛒 Add to Cart</button>
+                            <button class="btn-wishlist" onclick="addToWishlist()">♡ Add To Wishlist</button>
+                        </div>
+
+                        <!-- Product Features -->
+                        <div class="product-features">
+                            <div class="feature-item">
+                                <span class="feature-icon">🔒</span>
+                                <span>Secure payment</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">♡</span>
+                                <span>Cash on Delivery</span>
+                            </div>
+                        </div>
+
+                        <!-- Customers Viewing -->
+                        <div class="customers-viewing">
+                            <span class="eye-icon">👁</span>
+                            <span id="viewersCount">7 customers are viewing this product</span>
+                        </div>
+
+                        <!-- Reward Points -->
+                        <div class="reward-points">
+                            <span class="gift-icon">🎁</span>
+                            <span id="rewardPoints">You'll get 135 Reward Points</span>
+                        </div>
+
+                        <!-- Share Button -->
+                        <div class="share-section">
+                            <button class="share-btn" onclick="shareProduct()">👤 Share</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product Features Section -->
+                <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); margin: 3rem 0;">
+                    <h3 style="color: #2c3e50; margin-bottom: 1.5rem;">Product Features</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🎨</div>
+                            <div>
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Handcrafted</h4>
+                                <p style="color: #666; font-size: 0.9rem; margin: 0;">Made by skilled artisans</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🌿</div>
+                            <div>
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Eco-Friendly</h4>
+                                <p style="color: #666; font-size: 0.9rem; margin: 0;">Biodegradable materials</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🚚</div>
+                            <div>
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Safe Delivery</h4>
+                                <p style="color: #666; font-size: 0.9rem; margin: 0;">Secure packaging</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🛡️</div>
+                            <div>
+                                <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Quality Assured</h4>
+                                <p style="color: #666; font-size: 0.9rem; margin: 0;">Damage protection</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Payment Portal Modal -->
+    <div id="paymentModal" class="payment-modal" style="display: none;">
+        <div class="payment-modal-content">
+            <div class="payment-header">
+                <h3>Payment Gateway</h3>
+                <button class="modal-close" onclick="closePaymentPortal()">&times;</button>
+            </div>
+            
+            <div class="payment-body">
+                <!-- Order Summary -->
+                <div class="order-summary-section">
+                    <h4>Order Summary</h4>
+                    <div class="order-item">
+                        <img id="paymentProductImage" src="" alt="" class="order-product-image">
+                        <div class="order-details">
+                            <h5 id="paymentProductName">Product Name</h5>
+                            <p>Quantity: <span id="paymentQuantity">1</span></p>
+                            <p class="order-price">₹<span id="paymentItemPrice">0.00</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="order-totals">
+                        <div class="total-line">
+                            <span>Subtotal:</span>
+                            <span>₹<span id="subtotalAmount">0.00</span></span>
+                        </div>
+                        <div class="total-line">
+                            <span>Shipping:</span>
+                            <span>₹50.00</span>
+                        </div>
+                        <div class="total-line final-total">
+                            <span>Total:</span>
+                            <span>₹<span id="totalAmount">0.00</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="payment-methods-section">
+                    <h4>Select Payment Method</h4>
+                    
+                    <div class="payment-method-option" onclick="selectPaymentMethod('upi')">
+                        <input type="radio" name="paymentMethod" value="upi" id="upiPayment" checked>
+                        <label for="upiPayment">
+                            <div class="payment-icon">📱</div>
+                            <div>
+                                <h5>UPI Payment</h5>
+                                <p>Pay with GooglePay, PhonePe, Paytm</p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="payment-method-option" onclick="selectPaymentMethod('card')">
+                        <input type="radio" name="paymentMethod" value="card" id="cardPayment">
+                        <label for="cardPayment">
+                            <div class="payment-icon">💳</div>
+                            <div>
+                                <h5>Card Payment</h5>
+                                <p>Credit/Debit Card</p>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="payment-method-option" onclick="selectPaymentMethod('cod')">
+                        <input type="radio" name="paymentMethod" value="cod" id="codPayment">
+                        <label for="codPayment">
+                            <div class="payment-icon">💵</div>
+                            <div>
+                                <h5>Cash on Delivery</h5>
+                                <p>Pay when you receive</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- QR Code Section -->
+                <div id="qrCodeSection" class="qr-code-section">
+                    <h4>Scan to Pay</h4>
+                    <div class="qr-container">
+                        <canvas id="qrCodeCanvas"></canvas>
+                        <p class="qr-amount">Amount: ₹<span id="qrAmount">0.00</span></p>
+                        <p class="qr-instruction">Scan this QR code with any UPI app</p>
+                    </div>
+                </div>
+
+                <!-- Process Payment Button -->
+                <button id="processPaymentBtn" class="btn-process-payment" onclick="processPayment()">
+                    Process Payment
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" style="text-align: center; padding: 3rem;">
+        <div class="loading"></div>
+        <p>Loading product details...</p>
+    </div>
+
+    <!-- Flash Message Container -->
+    <div id="flashMessage" class="flash-message"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/product-overview.js"></script>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Shivrajya arts</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>Shirajya arts</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="claim.html" class="nav-link">Claims</a>
+                <a href="index.html#about" class="nav-link">About Us</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-btn">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="profile.html" class="login-btn active" id="authBtn">Profile</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding: 40px 0; min-height: 80vh;">
+        <div class="container">
+            <!-- Profile Header -->
+            <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); margin-bottom: 2rem; text-align: center;">
+                <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem; color: white;">
+                    👤
+                </div>
+                <h1 id="userName" style="color: #2c3e50; margin-bottom: 0.5rem;">Loading...</h1>
+                <p id="userEmail" style="color: #666; margin-bottom: 1rem;">Loading...</p>
+                <button onclick="logout()" class="btn btn-secondary">Logout</button>
+            </div>
+
+            <!-- Profile Tabs -->
+            <div style="background: white; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); overflow: hidden;">
+                <div class="profile-tabs">
+                    <button class="tab-btn active" onclick="showTab('orders')">📦 My Orders</button>
+                    <button class="tab-btn" onclick="showTab('profile')">👤 Profile Info</button>
+                    <button class="tab-btn" onclick="showTab('claims')">📸 My Claims</button>
+                </div>
+
+                <!-- Orders Tab -->
+                <div id="ordersTab" class="tab-content active">
+                    <div style="padding: 2rem;">
+                        <h3 style="margin-bottom: 1.5rem; color: #2c3e50;">Order History</h3>
+                        <div id="ordersList">
+                            <div style="text-align: center; padding: 2rem; color: #666;">
+                                <div class="loading"></div>
+                                <p>Loading your orders...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Tab -->
+                <div id="profileTab" class="tab-content">
+                    <div style="padding: 2rem;">
+                        <h3 style="margin-bottom: 1.5rem; color: #2c3e50;">Profile Information</h3>
+                        <form id="profileForm">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" id="firstName" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" class="form-control" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Claims Tab -->
+                <div id="claimsTab" class="tab-content">
+                    <div style="padding: 2rem;">
+                        <h3 style="margin-bottom: 1.5rem; color: #2c3e50;">My Claims</h3>
+                        <div id="claimsList">
+                            <div style="text-align: center; padding: 2rem; color: #666;">
+                                <div class="loading"></div>
+                                <p>Loading your claims...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Flash Message Container -->
+    <div id="flashMessage" class="flash-message"></div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Profile page specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!requireAuth()) return;
+            // Redirect admins to dedicated admin panel
+            if (currentUser && currentUser.is_admin) {
+                window.location.href = 'admin.html';
+                return;
+            }
+            
+            loadUserProfile();
+            loadUserOrders();
+            loadUserClaims();
+            setupProfileForm();
+        });
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function loadUserProfile() {
+            if (!currentUser) return;
+
+            document.getElementById('userName').textContent = `${currentUser.first_name} ${currentUser.last_name}`;
+            document.getElementById('userEmail').textContent = currentUser.email;
+
+            // Fill profile form
+            document.getElementById('firstName').value = currentUser.first_name;
+            document.getElementById('lastName').value = currentUser.last_name;
+            document.getElementById('email').value = currentUser.email;
+            document.getElementById('phone').value = currentUser.phone || '';
+        }
+
+        async function loadUserOrders() {
+            try {
+                const response = await fetch('php/orders.php?action=get_user_orders');
+                const data = await response.json();
+
+                const ordersList = document.getElementById('ordersList');
+
+                if (data.success && data.orders.length > 0) {
+                    ordersList.innerHTML = data.orders.map(order => `
+                        <div style="border: 1px solid #e9ecef; border-radius: 15px; padding: 1.5rem; margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <div>
+                                    <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Order #${order.id}</h4>
+                                    <p style="color: #666; font-size: 0.9rem;">${formatDateTime(order.created_at)}</p>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="background: ${getStatusColor(order.status)}; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; margin-bottom: 0.5rem;">
+                                        ${order.status.toUpperCase()}
+                                    </div>
+                                    <div style="font-weight: 700; color: #ff6b35;">${formatCurrency(order.total_amount)}</div>
+                                </div>
+                            </div>
+                            ${order.tracking_id ? `
+                                <div style="background: #f8f9fa; padding: 10px; border-radius: 10px; margin-bottom: 1rem;">
+                                    <strong>Tracking ID:</strong> ${order.tracking_id}
+                                </div>
+                            ` : ''}
+                            <div style="font-size: 0.9rem; color: #666;">
+                                <strong>Shipping Address:</strong> ${order.shipping_address}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    ordersList.innerHTML = `
+                        <div style="text-align: center; padding: 3rem; color: #666;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📦</div>
+                            <h3>No Orders Yet</h3>
+                            <p>You haven't placed any orders yet.</p>
+                            <a href="products.html" class="btn btn-primary">Shop Now</a>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                document.getElementById('ordersList').innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: #dc3545;">
+                        <p>Failed to load orders. Please try again.</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadUserClaims() {
+            try {
+                const response = await fetch('php/claims.php?action=get_user_claims');
+                const data = await response.json();
+
+                const claimsList = document.getElementById('claimsList');
+
+                if (data.success && data.claims.length > 0) {
+                    claimsList.innerHTML = data.claims.map(claim => `
+                        <div style="border: 1px solid #e9ecef; border-radius: 15px; padding: 1.5rem; margin-bottom: 1rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <div>
+                                    <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">Claim #${claim.id}</h4>
+                                    <p style="color: #666; font-size: 0.9rem;">${formatDateTime(claim.created_at)}</p>
+                                </div>
+                                <div style="background: ${getClaimStatusColor(claim.status)}; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem;">
+                                    ${claim.status.toUpperCase()}
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 100px 1fr; gap: 1rem; margin-bottom: 1rem;">
+                                <img src="${claim.image_path}" alt="Claim Image" style="width: 100px; height: 100px; object-fit: cover; border-radius: 10px;">
+                                <div>
+                                    <p style="color: #666; margin-bottom: 0.5rem;"><strong>Description:</strong></p>
+                                    <p style="color: #333;">${claim.description}</p>
+                                </div>
+                            </div>
+                            ${claim.admin_notes ? `
+                                <div style="background: #f8f9fa; padding: 10px; border-radius: 10px;">
+                                    <strong>Admin Notes:</strong> ${claim.admin_notes}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('');
+                } else {
+                    claimsList.innerHTML = `
+                        <div style="text-align: center; padding: 3rem; color: #666;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
+                            <h3>No Claims Submitted</h3>
+                            <p>You haven't submitted any claims yet.</p>
+                            <a href="claim.html" class="btn btn-primary">Submit Claim</a>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading claims:', error);
+                document.getElementById('claimsList').innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: #dc3545;">
+                        <p>Failed to load claims. Please try again.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function setupProfileForm() {
+            document.getElementById('profileForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const formData = new FormData();
+                formData.append('action', 'update_profile');
+                formData.append('first_name', document.getElementById('firstName').value);
+                formData.append('last_name', document.getElementById('lastName').value);
+                formData.append('phone', document.getElementById('phone').value);
+
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                const hideLoading = showLoading(submitBtn);
+
+                try {
+                    const response = await fetch('php/auth.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        // Update current user data
+                        currentUser.first_name = document.getElementById('firstName').value;
+                        currentUser.last_name = document.getElementById('lastName').value;
+                        currentUser.phone = document.getElementById('phone').value;
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+                        // Update display
+                        document.getElementById('userName').textContent = `${currentUser.first_name} ${currentUser.last_name}`;
+                        updateAuthDisplay();
+
+                        showFlashMessage('Profile updated successfully!', 'success');
+                    } else {
+                        showFlashMessage(data.message, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error updating profile:', error);
+                    showFlashMessage('Failed to update profile. Please try again.', 'error');
+                } finally {
+                    hideLoading();
+                }
+            });
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'pending': '#ffc107',
+                'processing': '#17a2b8',
+                'shipped': '#007bff',
+                'delivered': '#28a745',
+                'cancelled': '#dc3545'
+            };
+            return colors[status] || '#6c757d';
+        }
+
+        function getClaimStatusColor(status) {
+            const colors = {
+                'pending': '#ffc107',
+                'approved': '#28a745',
+                'rejected': '#dc3545'
+            };
+            return colors[status] || '#6c757d';
+        }
+    </script>
+
+    <style>
+        .profile-tabs {
+            display: flex;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-btn:hover {
+            background: #e9ecef;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #ff6b35;
+            border-bottom: 3px solid #ff6b35;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</body>
+</html>

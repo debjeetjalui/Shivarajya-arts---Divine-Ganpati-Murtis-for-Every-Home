@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claims - Shivarajya arts</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>shivrajya arts</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="claim.html" class="nav-link active">Claims</a>
+                <a href="index.html#about" class="nav-link">About Us</a>
+            </nav>
+            
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-btn">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="login.html" class="login-btn" id="authBtn">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding: 40px 0; min-height: 80vh;">
+        <div class="container">
+            <!-- Login Required Message -->
+            <div id="loginRequired" class="text-center" style="display: none;">
+                <div style="background: white; padding: 3rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1); max-width: 500px; margin: 0 auto;">
+                    <div style="font-size: 4rem; margin-bottom: 1.5rem;">🔒</div>
+                    <h2 style="color: #2c3e50; margin-bottom: 1rem;">Login Required</h2>
+                    <p style="color: #666; margin-bottom: 2rem;">Please login to submit a claim for defective murti.</p>
+                    <a href="login.html" class="btn btn-primary">Login Now</a>
+                </div>
+            </div>
+
+            <!-- Claims Section -->
+            <div id="claimsSection" style="display: none;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <!-- Submit New Claim -->
+                    <div class="form-container">
+                        <h2 style="text-align: center; margin-bottom: 1.5rem; color: #2c3e50;">
+                            📸 Submit Claim
+                        </h2>
+                        
+                        <form id="claimForm" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="orderSelect">Select Order (Optional)</label>
+                                <select id="orderSelect" class="form-control">
+                                    <option value="">Select an order...</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="productSelect">Select Product (Optional)</label>
+                                <select id="productSelect" class="form-control">
+                                    <option value="">Select a product...</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="claimImage">Upload Defective Murti Photo *</label>
+                                <input type="file" id="claimImage" class="form-control" accept="image/*" required>
+                                <small style="color: #666; font-size: 0.9rem;">
+                                    Please upload a clear photo showing the defect
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <img id="imagePreview" style="display: none; max-width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-top: 10px;">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="claimDescription">Description of Defect *</label>
+                                <textarea id="claimDescription" class="form-control" rows="4" placeholder="Please describe the defect in detail..." required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">Submit Claim</button>
+                        </form>
+                    </div>
+
+                    <!-- My Claims -->
+                    <div>
+                        <h2 style="text-align: center; margin-bottom: 1.5rem; color: #2c3e50;">
+                            📋 My Claims
+                        </h2>
+                        
+                        <div id="claimsList">
+                            <div style="text-align: center; padding: 2rem; color: #666;">
+                                <div class="loading"></div>
+                                <p>Loading your claims...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Flash Message Container -->
+    <div id="flashMessage" class="flash-message"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/claim.js"></script>
+</body>
+</html>
